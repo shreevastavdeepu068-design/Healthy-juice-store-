@@ -1,53 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Healthy Juice Store | Fresh & Natural</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <nav>
-        <div class="logo">Healthy Juice</div>
-        <ul>
-            <li><a href="#home">Home</a></li>
-            <li><a href="#menu">Menu</a></li>
-            <li><a href="#about">About</a></li>
-        </ul>
-    </nav>
-
-    <section id="home" class="hero">
-        <h1>Refresh Your Day with Fresh Fruit Juices</h1>
-        <p>100% Natural, No Added Sugar, No Preservatives.</p>
-        <a href="#menu" class="btn">Order Now</a>
-    </section>
-
-    <section id="menu">
-        <h2>Our Menu</h2>
-        <div class="menu-container">
-            <div class="card">
-                <h3>Orange Juice</h3>
-                <p>Price: ₹40</p>
-                <button onclick="orderViaWhatsApp('Orange Juice', 40)">Add to WhatsApp</button>
-            </div>
-            <div class="card">
-                <h3>Mango Juice</h3>
-                <p>Price: ₹50</p>
-                <button onclick="orderViaWhatsApp('Mango Juice', 50)">Add to WhatsApp</button>
-            </div>
-            <div class="card">
-                <h3>Mix Fruit</h3>
-                <p>Price: ₹60</p>
-                <button onclick="orderViaWhatsApp('Mix Fruit', 60)">Add to WhatsApp</button>
-            </div>
+    <header>
+        <div class="search-bar"><input type="text" placeholder="Search Juice..."></div>
+        <div class="category-slider">
+            <button>Fruits</button>
+            <button>Juice</button>
+            <button>Smoothie</button>
+            <button>Offers</button>
         </div>
-    </section>
+    </header>
 
-    <section id="about">
-        <h2>About Us</h2>
-        <p>We serve the freshest juices in town. Handpicked fruits, pure process.</p>
-    </section>
+    <main id="product-container" class="product-grid"></main>
+
+    <div id="cart-footer">
+        <span id="cart-count">0 items</span>
+        <button onclick="openCheckout()">View Cart</button>
+    </div>
 
     <script src="script.js"></script>
 </body>
