@@ -16,14 +16,7 @@
 html{scroll-behavior:smooth;}
 body{
 background:#f0fdf4;
-overflow-x:hidden;   /* 🔥 FIX 1: zoom/side scroll remove */
-}
-
-.hero{
-background:linear-gradient(rgba(0,0,0,.6),rgba(0,0,0,.6)),
-url('https://images.unsplash.com/photo-1553531889-56cc480ac5cb?w=1200');
-background-size:cover;
-background-position:center;
+overflow-x:hidden;
 }
 
 .card{transition:.3s;}
@@ -40,13 +33,8 @@ box-shadow:0 2px 0 #166534;
 
 #menuBox{display:none;}
 
-/* 🔥 FIX 2: prevent overflow inside cards/text */
-*{
-box-sizing:border-box;
-}
-img{
-max-width:100%;
-}
+*{box-sizing:border-box;}
+img{max-width:100%;}
 </style>
 </head>
 
@@ -66,9 +54,10 @@ max-width:100%;
 </div>
 
 <!-- HERO -->
-<section id="home" class="hero h-[400px] flex items-center justify-center text-center text-white px-4">
+<section id="home" class="h-[400px] flex items-center justify-center text-center text-white"
+style="background:linear-gradient(rgba(0,0,0,.6),rgba(0,0,0,.6)),url('https://images.unsplash.com/photo-1553531889-56cc480ac5cb?w=1200');background-size:cover;background-position:center;">
 <div>
-<h1 class="text-3xl md:text-6xl font-bold">Healthy Juice Store</h1> <!-- 🔥 FIX 3 -->
+<h1 class="text-3xl md:text-6xl font-bold">Healthy Juice Store</h1>
 <p>Fresh Juices & Shakes</p>
 <button class="btn3d bg-green-500 px-5 py-2 mt-4 rounded" onclick="scrollTo('menu')">
 Order Now
@@ -80,7 +69,6 @@ Order Now
 <section id="menu" class="p-6">
 <h2 class="text-2xl font-bold text-center mb-4">Menu</h2>
 
-<!-- 🔥 FIX 4: responsive grid -->
 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
 
 <div class="card bg-white p-4 rounded shadow">
@@ -106,15 +94,16 @@ onclick="addCart('Cold Coffee')">Add</button>
 
 <!-- CART -->
 <div id="cartBox" class="hidden fixed right-0 top-0 w-72 h-full bg-white p-4 shadow">
-<h3>Cart</h3>
+<h3 class="text-xl font-bold">Cart</h3>
 <ul id="cartList"></ul>
+
 <button onclick="whatsapp()" class="btn3d bg-green-600 text-white w-full mt-3 py-2">
 Order
 </button>
 </div>
 
 <!-- CONTACT -->
-<section id="contact" class="bg-green-700 text-white p-10 text-center px-4">
+<section id="contact" class="bg-green-700 text-white p-10 text-center">
 <h2>Contact</h2>
 <p>📞 7827543597</p>
 <p>📧 shreevastavdeepu068@gmail.com</p>
@@ -127,52 +116,94 @@ WhatsApp
 
 <!-- ADMIN -->
 <div id="admin" class="hidden fixed bottom-0 w-full bg-white p-3 border-t">
-<input id="pname" placeholder="Product" class="border p-1">
-<button onclick="addProduct()" class="bg-green-600 text-white px-3 py-1">Add</button>
+<input id="pname" placeholder="Product Name" class="border p-1">
+<button onclick="addProduct()" class="bg-green-600 text-white px-3 py-1">
+Add Product
+</button>
 </div>
 
+<!-- ================= JS ================= -->
 <script>
 
-let cart=[];
+let cart = [];
+let isAdmin = false;
 
+/* CART */
 function addCart(item){
 cart.push(item);
-render();
+renderCart();
 }
 
-function render(){
+function renderCart(){
 document.getElementById("cartList").innerHTML =
-cart.map(i=>`<li>${i}</li>`).join("");
+cart.map((i,index)=>`
+<li class="flex justify-between border-b py-1">
+${i}
+<button onclick="removeItem(${index})">❌</button>
+</li>
+`).join("");
 }
 
+function removeItem(i){
+cart.splice(i,1);
+renderCart();
+}
+
+/* CART TOGGLE */
 function toggleCart(){
 document.getElementById("cartBox").classList.toggle("hidden");
 }
 
+/* WHATSAPP */
 function whatsapp(){
-window.open("https://wa.me/917827543597?text=Order:%0A"+cart.join("%0A"));
+if(cart.length === 0){
+alert("Cart empty hai!");
+return;
 }
 
+window.open(
+"https://wa.me/917827543597?text=Order:%0A"+cart.join("%0A")
+);
+}
+
+/* MENU */
 function toggleMenu(){
 let m=document.getElementById("menuBox");
-m.style.display=m.style.display==="block"?"none":"block";
+m.style.display = (m.style.display==="block")?"none":"block";
 }
 
 function scrollTo(id){
 document.getElementById(id).scrollIntoView({behavior:"smooth"});
 }
 
+/* ADMIN */
+function adminLogin(){
+let pass = prompt("Enter Admin Password");
+if(pass==="admin123"){
+isAdmin=true;
+document.getElementById("admin").classList.remove("hidden");
+alert("Admin Login Success");
+}
+}
+
+function addProduct(){
+if(!isAdmin){
+alert("Admin only");
+return;
+}
+
+let name=document.getElementById("pname").value;
+alert("Product Added: "+name);
+}
+
+/* FIREBASE (READY) */
 const firebaseConfig = {
 apiKey:"YOUR_KEY",
 authDomain:"YOUR_DOMAIN",
 projectId:"YOUR_ID"
 };
-firebase.initializeApp(firebaseConfig);
 
-function addProduct(){
-let name=document.getElementById("pname").value;
-alert("Product Added: "+name);
-}
+firebase.initializeApp(firebaseConfig);
 
 </script>
 
