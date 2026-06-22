@@ -2,7 +2,7 @@ let cart = [];
 let isAdmin = false;
 
 /* ======================
-   ADD TO CART (OLD SAFE)
+   ADD TO CART (MENU BUTTONS)
 ====================== */
 function addCart(item){
     cart.push(item);
@@ -10,7 +10,7 @@ function addCart(item){
 }
 
 /* ======================
-   RENDER CART (FIXED HTML MATCH)
+   CART RENDER
 ====================== */
 function renderCart(){
     let list = document.getElementById("cartList");
@@ -31,31 +31,34 @@ function removeItem(i){
 }
 
 /* ======================
-   CART TOGGLE (HTML MATCH)
+   CART OPEN/CLOSE
 ====================== */
 function toggleCart(){
     let box = document.getElementById("cartBox");
-    if(!box) return;
-    box.classList.toggle("hidden");
+    if(box){
+        box.classList.toggle("hidden");
+    }
 }
 
 /* ======================
-   WHATSAPP ORDER (FIXED SAFE)
+   WHATSAPP ORDER (BOOKING SYSTEM)
 ====================== */
 function whatsapp(){
-    if(!cart || cart.length === 0){
+    if(cart.length === 0){
         alert("Cart empty hai!");
         return;
     }
 
+    let msg = "🧃 Juice Order:%0A" + cart.join("%0A");
+
     window.open(
-        "https://wa.me/917827543597?text=Order:%0A" + cart.join("%0A"),
+        "https://wa.me/917827543597?text=" + encodeURIComponent(msg),
         "_blank"
     );
 }
 
 /* ======================
-   MENU TOGGLE (FIXED)
+   MENU (3 DOTS)
 ====================== */
 function toggleMenu(){
     let menu = document.getElementById("menuBox");
@@ -65,7 +68,7 @@ function toggleMenu(){
 }
 
 /* ======================
-   SCROLL (HTML MATCH FIX)
+   SMOOTH SCROLL (HOME / MENU / ABOUT / CONTACT)
 ====================== */
 function scrollTo(id){
     let el = document.getElementById(id);
@@ -75,7 +78,7 @@ function scrollTo(id){
 }
 
 /* ======================
-   ADMIN LOGIN (HTML MATCH)
+   ADMIN LOGIN SYSTEM
 ====================== */
 function adminLogin(){
     let pass = prompt("Enter Admin Password");
@@ -91,33 +94,33 @@ function adminLogin(){
 }
 
 /* ======================
-   ADD PRODUCT (SAFE FIX)
+   ADD PRODUCT (ADMIN PANEL)
 ====================== */
 function addProduct(){
     if(!isAdmin){
-        alert("Admin only access");
+        alert("Admin only");
         return;
     }
 
     let input = document.getElementById("pname");
+
     if(!input || !input.value){
         alert("Enter product name");
         return;
     }
 
     alert("Product Added: " + input.value);
-
     input.value = "";
 }
 
 /* ======================
-   OTP SYSTEM (HTML SUPPORT)
+   OTP SYSTEM (FIREBASE READY)
 ====================== */
 function sendOTP(){
     let box = document.getElementById("otpBox");
     if(box) box.classList.remove("hidden");
 
-    alert("OTP sent (Firebase connect required)");
+    alert("OTP sent (Firebase connect later)");
 }
 
 function verifyOTP(){
@@ -125,6 +128,12 @@ function verifyOTP(){
 }
 
 /* ======================
-   SAFE INIT
+   INIT SAFE
 ====================== */
-console.log("Final JS loaded successfully");
+function init(){
+    renderCart();
+}
+
+init();
+
+console.log("FULL MERGED JS LOADED");
