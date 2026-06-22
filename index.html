@@ -1,22 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+<
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Healthy Juice Store</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-    <header>
-        <h1>Welcome to Healthy Juice Store</h1>
-    </header>
-
-    <main>
-        <p>Fresh and healthy juices delivered to you!</p>
-        </main>
-
+    <header><h1>Healthy Juice Store</h1></header>
+    <div class="menu-container">
+        <div class="card"><h3>Mango Shake</h3><p>Price: ₹50</p><button onclick="addToCart('Mango Shake', 50)">Add to Cart</button></div>
+        <div class="card"><h3>Banana Shake</h3><p>Price: ₹50</p><button onclick="addToCart('Banana Shake', 50)">Add to Cart</button></div>
+        <div class="card"><h3>Chocolate Shake</h3><p>Price: ₹60</p><button onclick="addToCart('Chocolate Shake', 60)">Add to Cart</button></div>
+        <div class="card"><h3>Mosambi Juice</h3><p>Price: ₹50</p><button onclick="addToCart('Mosambi Juice', 50)">Add to Cart</button></div>
+        <div class="card"><h3>Mix Juice</h3><p>Price: ₹60</p><button onclick="addToCart('Mix Juice', 60)">Add to Cart</button></div>
+    </div>
+    <div class="cart-section">
+        <h2>Your Cart: <span id="cart-count">0</span></h2>
+        <button id="checkout-btn" onclick="sendToWhatsApp()">Book on WhatsApp</button>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>
+
 
