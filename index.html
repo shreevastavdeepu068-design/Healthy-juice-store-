@@ -3,312 +3,177 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Healthy Juice Store | Sidhpura Kasganj</title>
+<title>Healthy Juice Store</title>
 
 <script src="https://cdn.tailwindcss.com"></script>
 
+<!-- Firebase (ready hooks) -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
 <style>
-html{
-scroll-behavior:smooth;
+html{scroll-behavior:smooth;}
+body{
+background:#f0fdf4;
+overflow-x:hidden;   /* 🔥 FIX 1: zoom/side scroll remove */
 }
+
 .hero{
-background:linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.55)),
+background:linear-gradient(rgba(0,0,0,.6),rgba(0,0,0,.6)),
 url('https://images.unsplash.com/photo-1553531889-56cc480ac5cb?w=1200');
 background-size:cover;
 background-position:center;
 }
-.card:hover{
-transform:translateY(-8px);
+
+.card{transition:.3s;}
+.card:hover{transform:translateY(-8px);}
+
+.btn3d{
+transition:.2s;
+box-shadow:0 6px 0 #166534;
 }
-.card{
-transition:.3s;
+.btn3d:active{
+transform:translateY(4px);
+box-shadow:0 2px 0 #166534;
 }
-.glow-btn{
-transition:.3s;
+
+#menuBox{display:none;}
+
+/* 🔥 FIX 2: prevent overflow inside cards/text */
+*{
+box-sizing:border-box;
 }
-.glow-btn:hover{
-transform:scale(1.08);
-box-shadow:0 10px 30px rgba(34,197,94,.4);
+img{
+max-width:100%;
 }
 </style>
 </head>
 
-<body class="bg-green-50">
+<body>
 
-<!-- NAVBAR -->
-<nav class="bg-green-700 text-white sticky top-0 z-50 shadow-lg">
-<div class="max-w-7xl mx-auto flex justify-between items-center p-4">
-<h1 class="font-bold text-xl">🥤 Healthy Juice Store</h1>
-
-<div class="hidden md:flex gap-5">
-<a href="#menu">Menu</a>
-<a href="#offers">Offers</a>
-<a href="#reviews">Reviews</a>
-<a href="#contact">Contact</a>
-</div>
-</div>
+<!-- NAV -->
+<nav class="bg-green-700 text-white p-4 flex justify-between">
+<h1>🥤 Juice Store</h1>
+<button onclick="toggleMenu()">⋮</button>
 </nav>
 
+<div id="menuBox" class="bg-white p-3">
+<p onclick="scrollTo('home')">Home</p>
+<p onclick="scrollTo('menu')">Menu</p>
+<p onclick="scrollTo('contact')">Contact</p>
+<p onclick="toggleCart()">Cart</p>
+</div>
+
 <!-- HERO -->
-<h1 class="text-6xl font-bold mb-4">
-🥤 Sidhpura Juice Store
-</h1>
-
-<p class="text-xl mb-6">
-Fresh Juices, Shakes & Cold Beverages Delivered Near You
-</p>
-<section class="py-12 bg-white">
-<div class="max-w-6xl mx-auto text-center">
-
-<h2 class="text-4xl font-bold text-green-700 mb-8">
-🚚 Delivery Areas
-</h2>
-
-<div class="grid md:grid-cols-3 gap-4">
-
-<div class="bg-green-100 p-4 rounded-xl">
-Sidhpura
-</div>
-
-<div class="bg-green-100 p-4 rounded-xl">
-Amanpur Road
-</div>
-
-<div class="bg-green-100 p-4 rounded-xl">
-Ramleela Ground Area
-</div>
-
-<div class="bg-green-100 p-4 rounded-xl">
-Patiali Road
-</div>
-
-<div class="bg-green-100 p-4 rounded-xl">
-Nearby Villages
-</div>
-
-<div class="bg-green-100 p-4 rounded-xl">
-Within 10-15 KM Radius
-</div>
-
-</div>
-
-</div>
-</section>
-<p class="text-lg">
-📍 Amanpur Road, Ramleela Ground, Sidhpura, Kasganj
-</p><section class="hero h-[500px] flex items-center justify-center text-center text-white">
+<section id="home" class="hero h-[400px] flex items-center justify-center text-center text-white px-4">
 <div>
-<h1 class="text-5xl font-bold mb-4">Fresh & Healthy Juices</h1>
-<p class="text-xl">Amanpur Road, Ramleela Ground, Sidhpura, Kasganj</p>
-
-<div class="mt-6 flex justify-center gap-3 flex-wrap">
-<a href="#menu" class="glow-btn bg-green-500 px-6 py-3 rounded-xl font-bold">
-View Menu
-</a>
-
-<a href="https://wa.me/917827543597"
-class="glow-btn bg-white text-green-700 px-6 py-3 rounded-xl font-bold">
-WhatsApp Order
-</a>
-</div>
-</div>
-</section>
-
-<!-- OFFERS -->
-<section id="offers" class="py-12">
-<h2 class="text-4xl text-center font-bold text-green-700 mb-8">
-🔥 Weekly Offers
-</h2>
-
-<div class="max-w-4xl mx-auto bg-white rounded-xl shadow-lg p-6 text-center">
-<h3 class="text-2xl font-bold text-red-600">
-Buy 2 Large Shakes & Get ₹20 OFF
-</h3>
-<p class="mt-3">Offer valid this week only.</p>
+<h1 class="text-3xl md:text-6xl font-bold">Healthy Juice Store</h1> <!-- 🔥 FIX 3 -->
+<p>Fresh Juices & Shakes</p>
+<button class="btn3d bg-green-500 px-5 py-2 mt-4 rounded" onclick="scrollTo('menu')">
+Order Now
+</button>
 </div>
 </section>
 
 <!-- MENU -->
-<section id="menu" class="py-12">
-<h2 class="text-4xl text-center font-bold text-green-700 mb-10">
-🥤 Juice & Shake Menu
-</h2>
+<section id="menu" class="p-6">
+<h2 class="text-2xl font-bold text-center mb-4">Menu</h2>
 
-<div class="grid md:grid-cols-4 gap-6 px-6 max-w-7xl mx-auto">
+<!-- 🔥 FIX 4: responsive grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
 
-<script>
-const products=[
-["Banana Shake"],
-["Chocolate Milk"],
-["Badam Shake"],
-["Mosambi Juice"],
-["Dry Fruit Shake"],
-["Mango Shake"],
-["Apple Juice"],
-["Orange Juice"],
-["Pineapple Juice"],
-["Mix Fruit Juice"],
-["Cold Coffee"],
-["Strawberry Shake"]
-];
-
-document.write(products.map(p=>`
-<div class="card bg-white rounded-xl shadow-lg p-4">
-<img src="https://picsum.photos/300?random=${Math.random()}"
-class="w-full h-44 object-cover rounded-lg">
-<h3 class="font-bold text-lg mt-3">${p[0]}</h3>
-<p class="text-green-700 font-bold">
-Small ₹50 | Large ₹80
-</p>
-
-<button
-onclick="addToCart('${p[0]}')"
-class="glow-btn mt-3 bg-green-600 text-white w-full py-2 rounded-lg">
-Add To Cart
-</button>
+<div class="card bg-white p-4 rounded shadow">
+Banana Shake
+<button class="btn3d bg-green-600 text-white px-3 py-1 mt-2"
+onclick="addCart('Banana Shake')">Add</button>
 </div>
-`).join(""));
-</script>
+
+<div class="card bg-white p-4 rounded shadow">
+Mango Shake
+<button class="btn3d bg-green-600 text-white px-3 py-1 mt-2"
+onclick="addCart('Mango Shake')">Add</button>
+</div>
+
+<div class="card bg-white p-4 rounded shadow">
+Cold Coffee
+<button class="btn3d bg-green-600 text-white px-3 py-1 mt-2"
+onclick="addCart('Cold Coffee')">Add</button>
+</div>
 
 </div>
 </section>
 
 <!-- CART -->
-<section class="py-12">
-<div class="max-w-3xl mx-auto bg-white p-6 rounded-xl shadow-lg">
-
-<h2 class="text-3xl font-bold mb-4 text-green-700">
-🛒 Cart
-</h2>
-
-<ul id="cartList" class="mb-4"></ul>
-
-<button onclick="sendWhatsAppOrder()"
-class="glow-btn bg-green-600 text-white px-6 py-3 rounded-lg">
-Order On WhatsApp
+<div id="cartBox" class="hidden fixed right-0 top-0 w-72 h-full bg-white p-4 shadow">
+<h3>Cart</h3>
+<ul id="cartList"></ul>
+<button onclick="whatsapp()" class="btn3d bg-green-600 text-white w-full mt-3 py-2">
+Order
 </button>
-
-</div>
-</section>
-
-<!-- ORDER FORM -->
-<section class="py-12">
-<div class="max-w-3xl mx-auto bg-white p-6 rounded-xl shadow-lg">
-
-<h2 class="text-3xl font-bold mb-6 text-green-700">
-📋 Quick Order Form
-</h2>
-
-<input id="name"
-placeholder="Your Name"
-class="w-full border p-3 mb-3 rounded">
-
-<input id="phone"
-placeholder="Mobile Number"
-class="w-full border p-3 mb-3 rounded">
-
-<textarea id="address"
-placeholder="Address"
-class="w-full border p-3 mb-3 rounded"></textarea>
-
-<button onclick="submitOrder()"
-class="glow-btn bg-green-600 text-white px-6 py-3 rounded-lg">
-Submit Order
-</button>
-
-</div>
-</section>
-
-<!-- REVIEWS -->
-<section id="reviews" class="py-12">
-<h2 class="text-4xl text-center font-bold text-green-700 mb-8">
-⭐ Customer Reviews
-<div class="bg-white p-5 rounded-xl shadow">
-⭐⭐⭐⭐⭐
-<br><br>
-Fresh juice aur fast service.
-<br><b>- Rahul, Sidhpura</b>
-</div>
-
-<div class="bg-white p-5 rounded-xl shadow">
-⭐⭐⭐⭐⭐
-<br><br>
-Banana shake bahut tasty tha.
-<br><b>- Aman, Kasganj</b>
-</div>
-
-<div class="bg-white p-5 rounded-xl shadow">
-⭐⭐⭐⭐⭐
-<br><br>
-Quality aur cleanliness achhi lagi.
-<br><b>- Deepak, Nearby Village</b>
 </div>
 
 <!-- CONTACT -->
-<section id="contact" class="bg-green-700 text-white py-12 text-center">
-<h2 class="text-4xl font-bold mb-4">
-Contact Us
-</h2>
-
+<section id="contact" class="bg-green-700 text-white p-10 text-center px-4">
+<h2>Contact</h2>
 <p>📞 7827543597</p>
 <p>📧 shreevastavdeepu068@gmail.com</p>
 
-<div class="mt-5 flex justify-center gap-3 flex-wrap">
-
-<a href="tel:7827543597"
-class="glow-btn bg-white text-green-700 px-6 py-3 rounded-lg font-bold">
-Call Now
-</a>
-
-<a href="https://wa.me/917827543597"
-class="glow-btn bg-green-500 px-6 py-3 rounded-lg font-bold">
+<a class="btn3d bg-white text-green-700 px-4 py-2 mt-3 inline-block"
+href="https://wa.me/917827543597">
 WhatsApp
 </a>
-
-</div>
 </section>
 
-<footer class="bg-black text-white text-center p-4">
-© 2026 Healthy Juice Store
-</footer>
+<!-- ADMIN -->
+<div id="admin" class="hidden fixed bottom-0 w-full bg-white p-3 border-t">
+<input id="pname" placeholder="Product" class="border p-1">
+<button onclick="addProduct()" class="bg-green-600 text-white px-3 py-1">Add</button>
+</div>
 
 <script>
+
 let cart=[];
 
-function addToCart(item){
+function addCart(item){
 cart.push(item);
-renderCart();
+render();
 }
 
-function renderCart(){
-let html="";
-cart.forEach(i=>{
-html+=`<li>✅ ${i}</li>`;
-});
-document.getElementById("cartList").innerHTML=html;
+function render(){
+document.getElementById("cartList").innerHTML =
+cart.map(i=>`<li>${i}</li>`).join("");
 }
 
-function sendWhatsAppOrder(){
-let text="Hello Healthy Juice Store.%0AOrder:%0A"+cart.join("%0A");
-window.open(
-"https://wa.me/917827543597?text="+text,
-"_blank"
-);
+function toggleCart(){
+document.getElementById("cartBox").classList.toggle("hidden");
 }
 
-function submitOrder(){
-const name=document.getElementById("name").value;
-const phone=document.getElementById("phone").value;
-const address=document.getElementById("address").value;
-
-const text=
-`Name: ${name}%0APhone: ${phone}%0AAddress: ${address}%0AItems: ${cart.join(", ")}`;
-
-window.open(
-"https://wa.me/917827543597?text="+text,
-"_blank"
-);
+function whatsapp(){
+window.open("https://wa.me/917827543597?text=Order:%0A"+cart.join("%0A"));
 }
+
+function toggleMenu(){
+let m=document.getElementById("menuBox");
+m.style.display=m.style.display==="block"?"none":"block";
+}
+
+function scrollTo(id){
+document.getElementById(id).scrollIntoView({behavior:"smooth"});
+}
+
+const firebaseConfig = {
+apiKey:"YOUR_KEY",
+authDomain:"YOUR_DOMAIN",
+projectId:"YOUR_ID"
+};
+firebase.initializeApp(firebaseConfig);
+
+function addProduct(){
+let name=document.getElementById("pname").value;
+alert("Product Added: "+name);
+}
+
 </script>
 
 </body>
