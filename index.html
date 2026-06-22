@@ -7,7 +7,7 @@
 
 <script src="https://cdn.tailwindcss.com"></script>
 
-<!-- Firebase (ready hooks) -->
+<!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
@@ -16,7 +16,14 @@
 html{scroll-behavior:smooth;}
 body{
 background:#f0fdf4;
-overflow-x:hidden;
+overflow-x:hidden; /* 🔥 FIX ZOOM ISSUE */
+max-width:100%;
+}
+
+*{box-sizing:border-box;}
+
+img{
+max-width:100%;
 }
 
 .card{transition:.3s;}
@@ -32,9 +39,6 @@ box-shadow:0 2px 0 #166534;
 }
 
 #menuBox{display:none;}
-
-*{box-sizing:border-box;}
-img{max-width:100%;}
 </style>
 </head>
 
@@ -51,6 +55,7 @@ img{max-width:100%;}
 <p onclick="scrollTo('menu')">Menu</p>
 <p onclick="scrollTo('contact')">Contact</p>
 <p onclick="toggleCart()">Cart</p>
+<p onclick="adminLogin()">Admin Login</p> <!-- 🔥 ADDED -->
 </div>
 
 <!-- HERO -->
@@ -59,7 +64,9 @@ style="background:linear-gradient(rgba(0,0,0,.6),rgba(0,0,0,.6)),url('https://im
 <div>
 <h1 class="text-3xl md:text-6xl font-bold">Healthy Juice Store</h1>
 <p>Fresh Juices & Shakes</p>
-<button class="btn3d bg-green-500 px-5 py-2 mt-4 rounded" onclick="scrollTo('menu')">
+
+<button class="btn3d bg-green-500 px-5 py-2 mt-4 rounded"
+onclick="scrollTo('menu')">
 Order Now
 </button>
 </div>
@@ -107,18 +114,26 @@ Order
 <h2>Contact</h2>
 <p>📞 7827543597</p>
 <p>📧 shreevastavdeepu068@gmail.com</p>
-
-<a class="btn3d bg-white text-green-700 px-4 py-2 mt-3 inline-block"
-href="https://wa.me/917827543597">
-WhatsApp
-</a>
 </section>
 
-<!-- ADMIN -->
+<!-- ADMIN PANEL -->
 <div id="admin" class="hidden fixed bottom-0 w-full bg-white p-3 border-t">
-<input id="pname" placeholder="Product Name" class="border p-1">
-<button onclick="addProduct()" class="bg-green-600 text-white px-3 py-1">
+<input id="pname" placeholder="Product Name" class="border p-2">
+<button onclick="addProduct()" class="bg-green-600 text-white px-3 py-2">
 Add Product
+</button>
+</div>
+
+<!-- OTP LOGIN PANEL -->
+<div id="otpBox" class="hidden fixed top-0 left-0 w-full bg-white p-4 shadow">
+<input id="phone" placeholder="Enter Phone Number" class="border p-2 w-full">
+<button onclick="sendOTP()" class="bg-green-600 text-white px-3 py-2 mt-2">
+Send OTP
+</button>
+
+<input id="otp" placeholder="Enter OTP" class="border p-2 w-full mt-2">
+<button onclick="verifyOTP()" class="bg-black text-white px-3 py-2 mt-2">
+Verify OTP
 </button>
 </div>
 
@@ -149,7 +164,6 @@ cart.splice(i,1);
 renderCart();
 }
 
-/* CART TOGGLE */
 function toggleCart(){
 document.getElementById("cartBox").classList.toggle("hidden");
 }
@@ -157,7 +171,7 @@ document.getElementById("cartBox").classList.toggle("hidden");
 /* WHATSAPP */
 function whatsapp(){
 if(cart.length === 0){
-alert("Cart empty hai!");
+alert("Cart empty!");
 return;
 }
 
@@ -176,13 +190,16 @@ function scrollTo(id){
 document.getElementById(id).scrollIntoView({behavior:"smooth"});
 }
 
-/* ADMIN */
+/* ADMIN LOGIN */
 function adminLogin(){
 let pass = prompt("Enter Admin Password");
+
 if(pass==="admin123"){
 isAdmin=true;
 document.getElementById("admin").classList.remove("hidden");
 alert("Admin Login Success");
+} else {
+alert("Wrong Password");
 }
 }
 
@@ -196,7 +213,17 @@ let name=document.getElementById("pname").value;
 alert("Product Added: "+name);
 }
 
-/* FIREBASE (READY) */
+/* OTP SYSTEM (READY HOOK FOR FIREBASE) */
+function sendOTP(){
+document.getElementById("otpBox").classList.remove("hidden");
+alert("OTP sent (Firebase connect required)");
+}
+
+function verifyOTP(){
+alert("OTP verified (demo mode)");
+}
+
+/* FIREBASE INIT */
 const firebaseConfig = {
 apiKey:"YOUR_KEY",
 authDomain:"YOUR_DOMAIN",
